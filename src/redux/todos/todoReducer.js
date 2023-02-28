@@ -1,4 +1,12 @@
-import { ADDTODO, TOGGLE } from "./actionTypes";
+import {
+    ADDTODO,
+    ALLCOMPLETE,
+    CLEARCOMPLETE,
+    DELETETODO,
+    SELECTCOLOR,
+    TOGGLE,
+} from "./actionTypes";
+
 export const initialState = [
     {
         id: 1,
@@ -13,9 +21,9 @@ export const initialState = [
     },
 ];
 
-function nextToDoId(array) {
-    const maxId = array.reduce(
-        (previousId, currentEl) => Math.max(currentEl.id, previousId),
+function nextToDoId(todosArray) {
+    const maxId = todosArray.reduce(
+        (previousId, todo) => Math.max(todo.id, previousId),
         0
     );
     return maxId + 1;
@@ -31,6 +39,7 @@ export const todoReducer = (state = initialState, action) => {
                     text: action.payload,
                 },
             ];
+
         case TOGGLE:
             return state.map((todo) => {
                 if (todo.id !== action.payload) {
@@ -38,10 +47,34 @@ export const todoReducer = (state = initialState, action) => {
                 }
                 return {
                     ...todo,
-                    // eslint-disable-next-line no-undef
-                    completed: !completed,
+                    completed: !todo.completed,
                 };
             });
+
+        case SELECTCOLOR:
+            return state.map((todo) => {
+                if (todo.id !== action.payload.id) {
+                    return todo;
+                }
+                return {
+                    ...todo,
+                    color: action.payload.color,
+                };
+            });
+
+        case DELETETODO:
+            return state.filter((todo) => todo.id !== action.payload);
+
+        case ALLCOMPLETE:
+            return state.map((todo) => {
+                return {
+                    ...todo,
+                    completed: true,
+                };
+            });
+
+        case CLEARCOMPLETE:
+            return state.filter((todo) => !todo.completed);
 
         default:
             return state;

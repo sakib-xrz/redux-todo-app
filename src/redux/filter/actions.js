@@ -7,12 +7,12 @@ export const statusChange = (status) => {
     };
 };
 
-export const colorChange = (colors, changeTpe) => { 
+export const colorChange = (colors, changeType) => { 
     return {
         type: COLORCHANGE,
         payload: {
             colors,
-            changeTpe,
+            changeType,
         },
     };
 };
