@@ -37,6 +37,7 @@ export const todoReducer = (state = initialState, action) => {
                 {
                     id: nextToDoId(state),
                     text: action.payload,
+                    completed: false,
                 },
             ];
 
@@ -53,7 +54,7 @@ export const todoReducer = (state = initialState, action) => {
 
         case SELECTCOLOR:
             return state.map((todo) => {
-                if (todo.id !== action.payload.id) {
+                if (todo.id !== action.payload.todoId) {
                     return todo;
                 }
                 return {
